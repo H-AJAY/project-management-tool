@@ -7,7 +7,7 @@ function TaskManager() {
   const [newTask, setNewTask] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/tasks").then((res) => {
+    axios.get("https://project-management-tool-z7ty.onrender.com/tasks").then((res) => {
       setTasks(res.data);
     });
   }, []);
@@ -18,7 +18,7 @@ function TaskManager() {
       return;
     }
   
-    axios.post("http://localhost:5000/tasks", { name: newTask })
+    axios.post("https://project-management-tool-z7ty.onrender.com/tasks", { name: newTask })
       .then((res) => {
         setTasks([...tasks, res.data]);
         setNewTask("");

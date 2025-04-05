@@ -6,7 +6,7 @@ function ProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/projects").then((res) => {
+    axios.get("https://project-management-tool-z7ty.onrender.com/projects").then((res) => {
       setProjects(res.data);
     });
   }, []);
