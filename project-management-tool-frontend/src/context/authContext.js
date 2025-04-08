@@ -11,10 +11,10 @@ export const AuthProvider = ({ children }) => {
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  const login = async (username, password) => {
+  const login = async (email, password) => {
     try {
       const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/login', {
-        username,
+        email,
         password,
       });
       localStorage.setItem('user', JSON.stringify(res.data));
@@ -22,12 +22,12 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       throw new Error("Login failed. Please check your credentials.");
     }
-  };
+  };  
   
-  const register = async (username, password, role) => {
+  const register = async (email, password, role) => {
     try {
       const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/register', {
-        username,
+        email,
         password,
         role,
       });

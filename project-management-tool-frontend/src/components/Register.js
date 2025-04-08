@@ -10,6 +10,7 @@ const Register = () => {
 
   const [formData, setFormData] = useState({
     username: "",
+    email: "",
     password: "",
     role: "employee",
   });
@@ -21,7 +22,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await register(formData.username, formData.password, formData.role);
+      await register(formData.username, formData.email, formData.password, formData.role);
       navigate("/dashboard");
     } catch (err) {
       alert("Registration failed. Please try again.");
@@ -36,12 +37,21 @@ const Register = () => {
       </Box>
       <form onSubmit={handleSubmit}>
         <TextField
-          label="Username"
-          name="username"
+          label="Name"
+          name="name"
           fullWidth
           required
           margin="normal"
           value={formData.name}
+          onChange={handleChange}
+        />
+        <TextField
+          label="email"
+          name="email"
+          fullWidth
+          required
+          margin="normal"
+          value={formData.email}
           onChange={handleChange}
         />
         <TextField
