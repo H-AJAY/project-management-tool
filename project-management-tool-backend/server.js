@@ -5,8 +5,10 @@ require("dotenv").config();
 
 const projectRoutes = require("./routes/projectRoutes");
 const taskRoutes = require("./routes/taskRoutes");
+const auth = require("./routes/auth"); // ✅ Auth route
 
-const app = express();
+const app = express(); // ✅ MUST come before app.use()
+
 app.use(cors());
 app.use(express.json());
 
@@ -15,6 +17,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
+app.use("/api/auth", auth); // ✅ Correct place to mount auth routes
 app.use("/projects", projectRoutes);
 app.use("/tasks", taskRoutes);
 
