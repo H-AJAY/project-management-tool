@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import LockIcon from "@mui/icons-material/Lock";
 
@@ -47,6 +47,9 @@ const Login = () => {
         <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
           Login
         </Button>
+        <Typography variant="body2">
+            Don’t have an account? <Link to="/register">Register here</Link>
+        </Typography>
       </form>
     </Paper>
   );
