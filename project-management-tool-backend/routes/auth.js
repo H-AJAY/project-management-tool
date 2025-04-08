@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const router = express.Router();
-const JWT_SECRET = "your_jwt_secret"; // Move to .env for security
+const JWT_SECRET = "your_jwt_secret"; // Ideally from .env
 
 // Register
 router.post("/register", async (req, res) => {
@@ -17,7 +17,18 @@ router.post("/register", async (req, res) => {
   const user = new User({ username, password: hashedPassword, role });
 
   await user.save();
-  res.json({ message: "User registered successfully" });
+
+  const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: "1h" });
+
+  res.json({
+    message: "User registered successfully",
+    token,
+    user: {
+      username: user.username,
+      role: user.role,
+      _id: user._id,
+    }
+  });
 });
 
 // Login
@@ -31,7 +42,15 @@ router.post("/login", async (req, res) => {
   if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
   const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: "1h" });
-  res.json({ token, role: user.role });
+
+  res.json({
+    token,
+    user: {
+      username: user.username,
+      role: user.role,
+      _id: user._id,
+    }
+  });
 });
 
 module.exports = router;
