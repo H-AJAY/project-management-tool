@@ -24,9 +24,10 @@ export const AuthProvider = ({ children }) => {
     }
   };  
   
-  const register = async (email, password, role) => {
+  const register = async (name, email, password, role) => {
     try {
       const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/register', {
+        name, // ✅ include name
         email,
         password,
         role,
@@ -36,7 +37,7 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       throw new Error("Registration failed. Please try again.");
     }
-  };  
+  };   
 
   const logout = () => {
     localStorage.removeItem('user');

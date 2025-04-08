@@ -2,6 +2,8 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
+
 exports.register = async (req, res) => {
   try {
     const { name, email, password, role } = req.body;
@@ -12,7 +14,9 @@ exports.register = async (req, res) => {
     const newUser = new User({ name, email, password: hashedPassword, role });
     await newUser.save();
 
-    res.status(201).json({ name: newUser.name, email: newUser.email, role: newUser.role });
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, JWT_SECRET, { expiresIn: '1h' });
+
+    res.status(201).json({ token, user: { name: newUser.name, email: newUser.email, role: newUser.role } });
   } catch (error) {
     res.status(500).json({ message: 'Registration failed', error });
   }
@@ -27,10 +31,9 @@ exports.login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-    // Optional: Add JWT
-    // const token = jwt.sign({ id: user._id }, 'your_secret_key', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ name: user.name, email: user.email, role: user.role });
+    res.json({ token, user: { name: user.name, email: user.email, role: user.role } });
   } catch (error) {
     res.status(500).json({ message: 'Login failed', error });
   }
