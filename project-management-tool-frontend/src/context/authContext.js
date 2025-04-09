@@ -12,34 +12,26 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (email, password) => {
-    try {
-      const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/login', {
-        email,
-        password,
-      });
-      localStorage.setItem('user', JSON.stringify(res.data));
-      setUser(res.data);
-    } catch (err) {
-      throw new Error("Login failed. Please check your credentials.");
-    }
-  };  
+    const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/login', {
+      email,
+      password,
+    });
+    localStorage.setItem('user', JSON.stringify(res.data.user));
+    localStorage.setItem('token', res.data.token); // ✅
+    setUser(res.data.user);
+  };
   
   const register = async (name, email, password, role) => {
-    try {
-        console.log("Registering user with:", { name, email, password, role });
-      const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/register', {
-        name,
-        email,
-        password,
-        role,
-      });
-      localStorage.setItem('user', JSON.stringify(res.data));
-      setUser(res.data);
-    } catch (err) {
-      console.error(err.response?.data || err.message); // Debug info
-      throw new Error("Registration failed. Please try again.");
-    }
-  };    
+    const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/register', {
+      name,
+      email,
+      password,
+      role,
+    });
+    localStorage.setItem('user', JSON.stringify(res.data.user));
+    localStorage.setItem('token', res.data.token); // ✅
+    setUser(res.data.user);
+  };      
 
   const logout = () => {
     localStorage.removeItem('user');
