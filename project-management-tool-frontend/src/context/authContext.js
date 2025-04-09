@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   
   const register = async (name, email, password, role) => {
     try {
+        console.log("Registering user with:", { name, email, password, role });
       const res = await axios.post('https://project-management-tool-z7ty.onrender.com/api/auth/register', {
         name,
         email,
