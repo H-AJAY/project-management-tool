@@ -6,13 +6,11 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret';
 
 exports.register = async (req, res) => {
   try {
-    console.log("📨 Incoming registration data:", req.body);
     const { name, email, password, role } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: 'User already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("✅ Creating user:", { name, email, password: "******", role });
     const newUser = new User({ name, email, password: hashedPassword, role });
     await newUser.save();
 
@@ -28,7 +26,6 @@ exports.register = async (req, res) => {
         }
       });
   } catch (error) {
-    console.error("❌ Registration failed:", error);
     res.status(500).json({ message: 'Registration failed', error });
   }
 };
@@ -47,8 +44,8 @@ exports.login = async (req, res) => {
       res.status(200).json({
         token,
         user: {
-          _id: user._id,      // ✅ Corrected from User._id
-          name: user.name,    // ✅ Corrected from User.name
+          _id: user._id,      
+          name: user.name,    
           email: user.email,
           role: user.role,
         }

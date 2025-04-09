@@ -2,13 +2,12 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-console.log("✅ MONGO_URI loaded:", process.env.MONGO_URI);
 
 const projectRoutes = require("./routes/projectRoutes");
 const taskRoutes = require("./routes/taskRoutes");
-const auth = require("./routes/auth"); // ✅ Auth route
+const auth = require("./routes/auth"); 
 
-const app = express(); // ✅ MUST come before app.use()
+const app = express(); 
 
 app.use(cors());
 app.use(express.json());
@@ -18,7 +17,7 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-app.use("/api/auth", auth); // ✅ Correct place to mount auth routes
+app.use("/api/auth", auth);
 app.use("/projects", projectRoutes);
 app.use("/tasks", taskRoutes);
 

@@ -51,14 +51,14 @@ const Dashboard = () => {
       .then((res) => {
         const tasks = res.data;
 
-        // 🔢 Group tasks by project name
+        // Group tasks by project name
         const grouped = tasks.reduce((acc, task) => {
           const projectName = task.project?.name || "Unknown";
           acc[projectName] = (acc[projectName] || 0) + 1;
           return acc;
         }, {});
 
-        // 📊 Convert to chart-friendly format
+        // Convert to chart-friendly format
         const chartData = Object.keys(grouped).map((name) => ({
           name,
           tasks: grouped[name],
@@ -66,7 +66,7 @@ const Dashboard = () => {
 
         setTaskData(chartData);
 
-        // ✅ Also update pie chart
+        // Also update pie chart
         const completed = tasks.filter((task) => task.status === "Completed").length;
         const pending = tasks.length - completed;
         setTaskStats({ completed, pending });
