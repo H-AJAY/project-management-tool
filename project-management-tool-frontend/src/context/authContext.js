@@ -9,6 +9,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
+    console.log("📦 LocalStorage user:", storedUser);
     if (storedUser && storedUser !== "undefined") {
       setUser(JSON.parse(storedUser));
     }
