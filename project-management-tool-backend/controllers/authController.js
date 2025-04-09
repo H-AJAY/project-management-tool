@@ -18,7 +18,12 @@ exports.register = async (req, res) => {
 
     const token = jwt.sign({ id: newUser._id, role: newUser.role }, JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(201).json({ token, user: { name: newUser.name, email: newUser.email, role: newUser.role } });
+    res.status(201).json({
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role,
+      });
   } catch (error) {
     console.error("❌ Registration failed:", error);
     res.status(500).json({ message: 'Registration failed', error });
@@ -36,7 +41,12 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 
-    res.json({ token, user: { name: user.name, email: user.email, role: user.role } });
+    res.json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      });      
   } catch (error) {
     res.status(500).json({ message: 'Login failed', error });
   }

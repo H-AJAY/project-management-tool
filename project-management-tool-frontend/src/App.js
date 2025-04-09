@@ -19,11 +19,11 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <Routes>
+      <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route
-            path="/"
+            path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
