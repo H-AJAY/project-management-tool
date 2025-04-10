@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -11,18 +11,17 @@ import {
 } from "@mui/material";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import axios from "axios";
-import { AuthContext } from "../context/authContext"; // ✅ import AuthContext
 
 function ProjectList() {
   const [projects, setProjects] = useState([]);
-  const { user } = useContext(AuthContext); // ✅ access user context
-  const token = localStorage.getItem("token"); // ✅ grab token directly
 
   useEffect(() => {
+    const token = localStorage.getItem("token"); // ✅ moved inside useEffect
+
     axios
       .get("https://project-management-tool-z7ty.onrender.com/projects", {
         headers: {
-          Authorization: `Bearer ${token}`, // ✅ attach token
+          Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => {
@@ -31,7 +30,7 @@ function ProjectList() {
       .catch((err) => {
         console.error("Error fetching projects:", err);
       });
-  }, []);
+  }, []); // ✅ clean dependency array
 
   return (
     <Card sx={{ my: 3, mx: 2 }}>
